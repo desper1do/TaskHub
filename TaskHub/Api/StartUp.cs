@@ -3,6 +3,7 @@ using Api.UseCases.Users.Interfaces;
 using Dal;
 using Logic;
 using Microsoft.OpenApi.Models;
+using Api.DiTest;
 
 namespace Api;
 
@@ -33,6 +34,17 @@ public sealed class Startup
     /// <param name="services">Коллекция сервисов</param>
     public void ConfigureServices(IServiceCollection services)
     {
+        // регистрация DI
+        services.AddSingleton<ISingleton1, Singleton1>();
+        services.AddSingleton<ISingleton2, Singleton2>();
+
+        services.AddScoped<IScoped1, Scoped1>();
+        services.AddScoped<IScoped2, Scoped2>();
+
+        services.AddTransient<ITransient1, Transient1>();
+        services.AddTransient<ITransient2, Transient2>();
+
+
         services.AddControllers();
         services.AddDal();
         services.AddLogic();
