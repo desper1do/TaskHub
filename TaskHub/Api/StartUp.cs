@@ -3,7 +3,8 @@ using Api.UseCases.Users.Interfaces;
 using Dal;
 using Logic;
 using Microsoft.OpenApi.Models;
-using Api.DiTest;
+using Api.DiTest.Interfaces;
+using Api.DiTest.Services;
 
 namespace Api;
 
