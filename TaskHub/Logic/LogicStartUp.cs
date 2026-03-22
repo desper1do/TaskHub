@@ -1,4 +1,7 @@
-﻿using Logic.Users.Services;
+﻿using Logic.Tasks.Services;
+using Logic.Tasks.Services.Interfaces;
+using Logic.Tasks.UseCases;
+using Logic.Users.Services;
 using Logic.Users.Services.Interfaces;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -16,5 +19,14 @@ public static class LogicStartUp
     public static void AddLogic(this IServiceCollection services)
     {
         services.AddScoped<IUserService, UserService>();
+        
+        services.AddScoped<CreateTaskUseCase>();
+        services.AddScoped<GetTasksUseCase>();
+        services.AddScoped<GetTaskUseCase>();
+        services.AddScoped<SetTaskTitleUseCase>();
+        services.AddScoped<DeleteTaskUseCase>();
+        services.AddScoped<DeleteTasksUseCase>();
+        
+        services.AddScoped<ITaskService, TaskService>();
     }
 }
