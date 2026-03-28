@@ -1,6 +1,7 @@
 using Api.Attributes;
 using Api.Controllers.Tasks.Requests;
 using Api.Controllers.Tasks.Responses;
+using Api.Filters;
 using Logic.Tasks.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
@@ -8,6 +9,8 @@ namespace Api.Controllers.Tasks;
 
 [ApiController]
 [Route("tasks")]
+[ServiceFilter(typeof(StudentInfoHeadersFilter))]
+[ServiceFilter(typeof(RequestLoggingFilter))]
 public sealed class TasksController : ControllerBase
 {
     private readonly ITaskService _taskService;
@@ -18,6 +21,7 @@ public sealed class TasksController : ControllerBase
     }
 
     [HttpPost]
+    [ServiceFilter(typeof(ValidateCreateTaskRequestFilter))]
     public async Task<IActionResult> CreateAsync([FromBody] CreateTaskRequest request, CancellationToken cancellationToken)
     {
         var task = await _taskService.CreateAsync(request.CreatedByUserId, request.Title, cancellationToken);
@@ -44,6 +48,7 @@ public sealed class TasksController : ControllerBase
     }
 
     [HttpPut("{id}/title")]
+    [ServiceFilter(typeof(ValidateSetTaskTitleRequestFilter))]
     public async Task<IActionResult> UpdateTitleAsync([FromRouteTaskId] Guid id, [FromBody] SetTaskTitleRequest request, CancellationToken cancellationToken)
     {
         var updated = await _taskService.UpdateTitleAsync(id, request.Title, cancellationToken);
